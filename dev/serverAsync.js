@@ -17,7 +17,5 @@ http.createServer(function(req, res) {
             res.end(info);
         });
 
-    } else if (req.url == '/now') {
-        res.end(new Date().toString());
-    }
+    } else { /* 404 */ }
 }).listen(3000);
