@@ -3,9 +3,11 @@ var http = require('http');
 var path = require('path');
 var config = require('config');
 var log = require('libs/log')(module);
+var mongoose = require('lib/mongoose');
 var HttpError = require('error').HttpError;
 
 var app = express();
+
 app.engine('ejs', require('ejs-locals'));
 app.set('templates', __dirname + '/templates');
 app.set('view engine', 'ejs');
@@ -21,6 +23,20 @@ if (app.get('env') == 'development') {
 app.use(express.bodyParser());
 
 app.use(express.cookieParser());
+
+var MongoStore = require('connect-mongo')(express);
+
+app.use(express.session({
+  secret: config.get('session:secret'),
+  key: config.get('session:key'),
+  cookie: config.get('session:cookie'),
+  store: new MongoStore({mongoose_connection: mongoose.connection})
+}));
+
+app.use(function(req, res, next) {
+  req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
+  res.send('Visits: ' + req.session.numberOfVisits);
+});
 
 app.use(require('middleware/sendHttpError'));
 
