@@ -39,6 +39,7 @@ app.use(function(req, res, next) {
 });
 
 app.use(require('middleware/sendHttpError'));
+app.use(require('middleware/loadUser'));
 
 app.use(app.router);
 
