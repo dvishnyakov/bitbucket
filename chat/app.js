@@ -24,13 +24,13 @@ app.use(express.bodyParser());
 
 app.use(express.cookieParser());
 
-var MongoStore = require('connect-mongo')(express);
+var sessionStore = require('lib/sessionStore');
 
 app.use(express.session({
   secret: config.get('session:secret'),
   key: config.get('session:key'),
   cookie: config.get('session:cookie'),
-  store: new MongoStore({mongoose_connection: mongoose.connection})
+  store: sessionStore
 }));
 
 app.use(function(req, res, next) {
@@ -69,4 +69,5 @@ var server = http.createServer(app).listen(config.get('port'), function() {
   log.info('Express server listening on port ' + config.get('port'));
 });
 
-require('./socket')(server);
+var io = require('./socket')(server);
+app.set('io', io);
