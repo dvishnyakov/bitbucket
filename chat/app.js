@@ -1,10 +1,10 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
-var config = require('config');
-var log = require('lib/log')(module);
-var mongoose = require('lib/mongoose');
-var HttpError = require('error').HttpError;
+var config = require('./config');
+var log = require('./lib/log')(module);
+var mongoose = require('./lib/mongoose');
+var HttpError = require('./error').HttpError;
 
 var app = express();
 
@@ -24,7 +24,9 @@ app.use(express.bodyParser());
 
 app.use(express.cookieParser());
 
-var sessionStore = require('lib/sessionStore');
+app.use(express.static('bower_components'));
+
+var sessionStore = require('./lib/sessionStore');
 
 app.use(express.session({
   secret: config.get('session:secret'),
@@ -33,17 +35,17 @@ app.use(express.session({
   store: sessionStore
 }));
 
-app.use(function(req, res, next) {
+/*app.use(function(req, res, next) {
   req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
   res.send('Visits: ' + req.session.numberOfVisits);
-});
+});*/
 
-app.use(require('middleware/sendHttpError'));
-app.use(require('middleware/loadUser'));
+app.use(require('./middleware/sendHttpError'));
+app.use(require('./middleware/loadUser'));
 
 app.use(app.router);
 
-require('routes')(app);
+require('./routes')(app);
 
 app.use(express.static(path.join(__dirname, 'public')));
 

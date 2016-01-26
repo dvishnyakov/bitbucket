@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/vendor/bower_components/bootstrap/dist/css/bootstrap.css"/>
     <link rel="stylesheet" href="/css/app.css"/>
 
-    <script src="/vendor/bower_components/jquery/jquery.js"></script>
+    <script src="/vendor/bower_components/jquery/dist/jquery.js"></script>
     <script src="/vendor/bower_components/bootstrap/dist/js/bootstrap.js"></script>
 </head>
 <body>
@@ -39,7 +39,7 @@
         </div>
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-10">
-                <button type="submit" class="btn btn-primary" data-loading-text="Отправляю...">Войте</button>
+                <button type="submit" class="btn btn-primary" data-loading-text="Отправляю...">Войти</button>
                 <span class="help-block error"></span>
             </div>
         </div>
@@ -60,8 +60,8 @@
                 },
                 statusCode: {
                     200: function() {
-                        from.html('Вы вошли в сайт').addClass('alert-success');
-                        windows.location.href = '/chat';
+                        form.html('Вы вошли в сайт').addClass('alert-success');
+                        window.location.href = '/chat';
                     },
                     403: function(jqXHR) {
                         var error = JSON.parse(jqXHR.responseText);
