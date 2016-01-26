@@ -1,4 +1,4 @@
-var mongoose = require('lib/mongoose');
+var mongoose = require('./lib/mongoose');
 var async = require('async');
 
 async.series([
@@ -9,7 +9,7 @@ async.series([
 ], function(err) {
     console.log(arguments);
     mongoose.disconnect();
-    precess.exit(err ? 255 : 0);
+    process.exit(err ? 255 : 0);
 });
 
 function open(callback) {
@@ -22,7 +22,7 @@ function dropDatabase(callback) {
 }
 
 function requireModels(callback) {
-    require('models/user');
+    require('./models/user');
 
     async.each(Object.keys(mongoose.models), function(modelName, callback) {
         mongoose.models[modelName].ensureIndexes(callback);
