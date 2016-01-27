@@ -1,11 +1,11 @@
-var log = require('lib/log')(module);
-var config = require('config');
+var log = require('../lib/log')(module);
+var config = require('../config');
 var connect = require('connect');
 var async = require('async');
 var cookie = require('cookie');
-var sessionStore = require('lib/sessionStore');
-var HttpError = require('error').HttpError;
-var User = require('models/user').User;
+var sessionStore = require('../lib/sessionStore');
+var HttpError = require('../error').HttpError;
+var User = require('../models/user').User;
 
 function loadSession(sid, callback) {
     sessionStore.load(sid, function(err, session) {
@@ -41,7 +41,7 @@ function loadUser(session, callback) {
 module.exports = function(server) {
 
     var io = require('socket.io').listen(server);
-    io.set('origins', 'localhost:*');
+    //io.set('origins', 'localhost:*');
     io.set('logger', log);
 
     io.set('authorization', function(handshake, callback) {
@@ -114,7 +114,7 @@ module.exports = function(server) {
         socket.broadcast.emit('join', username);
 
         socket.on('message', function(text, cb) {
-            socket.broadcast.emit('message', text);
+            socket.broadcast.emit('message', username, text);
             cb && cb();
         });
 
