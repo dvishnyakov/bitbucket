@@ -1,0 +1,113 @@
+<% layout('../templates/layout/page') -%>
+<% block('title', 'Profile') -%>
+<h3>Profile</h3>
+
+<form class="form-horizontal update-form" name="update-form" id="update-form">
+    <input type="hidden" name="username" value="<%= user.get('username') %>">
+    <input type="hidden" name="userId" value="<%= profileUsername %>">
+    <% if (user.get('username') === profileUsername) { %>
+    <div class="form-group">
+        <label for="input-password" class="col-lg-2 control-label">Password</label>
+        <div class="col-lg-10">
+            <input name="password" value="pass" type="password" class="form-control" id="input-password" placeholder="Password">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-lg-10">
+            <button type="button" class="btn btn-primary" id="create-article" data-loading-text="Sending...">Create Article</button>
+            <button type="submit" class="btn btn-primary" id="update" data-loading-text="Sending...">Update Profile</button>
+            <button type="submit" class="btn btn-primary" id="delete" data-loading-text="Sending...">Delete Profile</button>
+            <span class="help-block error"></span>
+        </div>
+    </div>
+    <% } %>
+    <ul class="list article-list"></ul>
+</form>
+<script>
+
+    $(function() {
+
+        var form = $('#update-form');
+
+        $.ajax({
+            url: '/articles/byusername',
+            method: 'POST',
+            data: form.serialize(),
+            complete: function () {
+                $(':submit', form).button('reset');
+            },
+            statusCode: {
+                200: function (articles) {
+                    articles.forEach(function(article) {
+                        if ($('.article-list').html() !== '') {
+                            $('.article-list').append('</br>');
+                        }
+                        $('.article-list').append('<li><b><a href="/article/' + article.username + '/' + article.uid + '">' + article.title + '</a></li>');
+                    });
+                },
+                403: function (jqXHR) {
+                    var error = JSON.parse(jqXHR.responseText);
+                    $('.error', form).html(error.message);
+                }
+            }
+        });
+
+        $('#create-article').click(function() {
+            window.location.href = '/article/' + $('input[name=username]').val() + '/new';
+        });
+
+        $('#update').click(function() {
+            var form = $('#update-form');
+
+            $('.error', form).html('');
+            $('#' + this.id).button('loading');
+
+            $.ajax({
+                url: '/profile',
+                method: 'PUT',
+                data: form.serialize(),
+                complete: function() {
+                    $('#' + this.id).button('reset');
+                },
+                statusCode: {
+                    200: function() {
+                        form.html('Password was updated.').addClass('alert-success');
+                    },
+                    403: function(jqXHR) {
+                        var error = JSON.parse(jqXHR.responseText);
+                        $('.error', form).html(error.message);
+                    }
+                }
+            });
+            return false;
+        });
+
+        $('#delete').click(function() {
+            var form = $('#update-form');
+
+            $('.error', form).html('');
+            $('#' + this.id).button('loading');
+
+            $.ajax({
+                url: '/profile',
+                method: 'DELETE',
+                data: form.serialize(),
+                complete: function() {
+                    $('#' + this.id).button('reset');
+                },
+                statusCode: {
+                    200: function() {
+                        form.html('Your account has been deleted.').addClass('alert-success');
+                    },
+                    403: function(jqXHR) {
+                        var error = JSON.parse(jqXHR.responseText);
+                        $('.error', form).html(error.message);
+                    }
+                }
+            });
+            return false;
+        });
+
+    });
+
+</script>

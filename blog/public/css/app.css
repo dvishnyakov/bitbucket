@@ -1,0 +1,28 @@
+.selected {
+    font-weight: bold;
+}
+
+.bold {
+    font-weight:bold;
+}
+
+.no_selection {
+    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none; /* IE10+ */
+}
+
+.not-active {
+    pointer-events: none;
+    cursor: default;
+}
+
+.width-450 {
+    width: 450px;
+}
+
+ul.list
+{
+    list-style-type: none;
+}
