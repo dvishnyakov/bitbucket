@@ -17,24 +17,24 @@ module.exports = function(app) {
     app.get('/join', require('./join').get);
     app.post('/register', require('./register').post);
 
-    app.get('/profile/:username', require('./profile').get);
     app.post('/profile', checkAuth, require('./profile').post);
+    app.get('/profile/:username', require('./profile').get);
     app.put('/profile', checkAuth, require('./profile').put);
     app.delete('/profile', checkAuth, require('./profile').delete);
 
     app.post('/articles', require('./article').find);
     app.post('/articles/byusername', require('./article').getArticlesByUsername);
 
-    app.get('/article/:username/new', require('./article').get);
+    app.get('/article/:username/new', checkAuth, require('./article').get);
     app.get('/article/:username/:uid', require('./article').get);
 
-    app.post('/articleobj/:username/:uid', require('./article').postobj);
+    app.post('/articleobj/:username/:uid', checkAuth, require('./article').postobj);
     app.get('/articleobj/:username/:uid', require('./article').getobj);
-    app.put('/articleobj/:username/:uid', require('./article').putobj);
-    app.delete('/articleobj/:username/:uid', require('./article').deleteobj);
+    app.put('/articleobj/:username/:uid', checkAuth, require('./article').putobj);
+    app.delete('/articleobj/:username/:uid', checkAuth, require('./article').deleteobj);
 
     app.get('/commentlist/:articleuid', require('./comment').getAll);
-    app.post('/comment/:articleuid', require('./comment').post);
+    app.post('/comment/:articleuid', checkAuth, require('./comment').post);
 
     /*app.get('/user/:id', function(req, res, next) {
         try {

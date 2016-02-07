@@ -1,8 +1,7 @@
 {
   "port": 3003,
   "mongoose": {
-    /*"uri": "mongodb://localhost/blog",*/
-    "uri": "mongodb://sa:qwerty@ds027415.mongolab.com:27415/heroku_x9msvmh2",
+    "uri": "mongodb://localhost/blog",
     "options": {
       "server": {
         "socketOptions": {

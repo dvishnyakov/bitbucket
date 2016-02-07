@@ -5,7 +5,7 @@
 <p>Enter title or author of the article.</p>
 <form class="form-horizontal find-form" name="find-form" id="find-form">
 <div>
-    <input name="title" type="text" class="width-450" id="title" placeholder="Title or Author">
+    <input name="searchvalue" type="text" class="width-450" id="title" placeholder="Title or Author">
     <button type="submit" class="btn btn-primary" data-loading-text="Sending...">Find</button>
 </div>
 <ul class="list search-result"></ul>
@@ -26,6 +26,7 @@
             },
             statusCode: {
                 200: function (articles) {
+                    $('.search-result').html('');
                     articles.forEach(function(article) {
                         if ($('.search-result').html() !== '') {
                             $('.search-result').append('</br>');

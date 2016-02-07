@@ -2,16 +2,18 @@
 <% block('title', 'Article') -%>
 
 <form class="form-horizontal article-form">
+    <% if (user) { %>
     <input type="hidden" name="username" value="<%= user.get('username') %>">
+    <% } %>
     <input type="hidden" name="articleUsername" value="<%= articleUsername %>">
     <input type="hidden" name="articleUID" value="<%= articleUID %>">
     <input type="hidden" name="articletitle" value="">
     <input type="hidden" name="articletext" value="">
-    <% if (user.get('username') !== articleUsername && articleUID) { %>
+    <% if ((!user || user.get('username') !== articleUsername) && articleUID) { %>
     <h4 name="articletitle"></h4>
     <p name="articletext"></p>
     <% } %>
-    <% if (user.get('username') === articleUsername) { %>
+    <% if (user && user.get('username') === articleUsername) { %>
     <div class="form-group">
         <label for="input-username" class="col-lg-2 control-label">Title</label>
         <div class="col-lg-10">
@@ -24,16 +26,16 @@
             <textarea name="newarticletext" rows="10" cols="50"></textarea>
         </div>
     </div>
-    <% if (!articleUID) { %>
-    <button type="button" class="btn btn-primary" id="create" data-loading-text="Sending...">Save</button>
-    <% } else { %>
-    <button type="button" class="btn btn-primary" id="update" data-loading-text="Sending...">Update</button>
-    <button type="button" class="btn btn-primary" id="delete" data-loading-text="Sending...">Delete</button>
-    <span class="help-block error"></span>
-    <% } %>
+        <% if (!articleUID) { %>
+        <button type="button" class="btn btn-primary" id="create" data-loading-text="Sending...">Save</button>
+        <% } else { %>
+        <button type="button" class="btn btn-primary" id="update" data-loading-text="Sending...">Update</button>
+        <button type="button" class="btn btn-primary" id="delete" data-loading-text="Sending...">Delete</button>
+        <span class="help-block error"></span>
+        <% } %>
     <% } %>
     <% if (articleUID) { %>
-        <% if (user.get('username') !== articleUsername) { %>
+        <% if (user && user.get('username') !== articleUsername) { %>
         <div>
             <a class="rating-value no_selection one">1</a>
             <a class="rating-value no_selection two">2</a>
@@ -52,8 +54,10 @@
         <% } %>
     <h5 class="bold">Comments (<a class="bold no_selection" name="commentscount">0</a>)</h5>
     <ul class="list comments"></ul>
-    <input type="text" name="newcomment">
-    <input type="button" class="btn btn-primary" id="postComment" value="Comment">
+        <% if (user) { %>
+        <input type="text" name="newcomment">
+        <input type="button" class="btn btn-primary" id="postComment" value="Comment">
+        <% } %>
     <% } %>
 </form>
 
