@@ -9,7 +9,7 @@ var HttpError = require('./error').HttpError;
 var app = express();
 
 app.engine('ejs', require('ejs-locals'));
-app.set('templates', __dirname + '/templates');
+app.set('views', path.join(__dirname, 'templates'));
 app.set('view engine', 'ejs');
 
 app.use(express.favicon());
@@ -23,8 +23,6 @@ if (app.get('env') == 'development') {
 app.use(express.bodyParser());
 
 app.use(express.cookieParser());
-
-app.use(express.static('bower_components'));
 
 var sessionStore = require('./lib/sessionStore');
 
