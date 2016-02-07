@@ -73,14 +73,11 @@ exports.deleteobj = function(req, res, next) {
 };
 
 exports.find = function(req, res, next) {
-    var title = req.body.title;
+    var username = req.body.searchvalue;
+    var title = req.body.searchvalue;
 
-    Article.findByTitle(title, function(err, articlesByTitle) {
-        if (err) return next(err);
-
-        Article.findByUsername(title, function(err, articlesByUsername) {
-            res.send(articlesByTitle.concat(articlesByUsername));
-        });
+    Article.findArticle(username, title, function(err, articles) {
+        res.send(articles);
     });
 };
 

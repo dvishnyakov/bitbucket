@@ -7,7 +7,7 @@
     </ul>
     <ul class="nav navbar-nav navbar-right">
         <% if (user) { %>
-        <li><a href="" onclick="$('<form method=POST action=/logout>').submit();return false">Sign out</a></li>
+        <li><a href="#" onclick="$('body').append('<form id=\'logoutform\' method=\'POST\' action=\'/logout\'></form>');$('#logoutform').submit();return false;">Sign out</a></li>
         <% } else { %>
         <li><a href="/join">Sign up</a></li>
         <li><a href="/login">Sign in</a></li>

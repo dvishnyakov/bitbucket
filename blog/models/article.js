@@ -79,6 +79,28 @@ schema.statics.read = function(username, uid, callback) {
     ], callback);
 };
 
+schema.statics.findArticle = function(username, title, callback) {
+    var Article = this;
+
+    async.waterfall([
+        function(callback) {
+            Article.find({
+                $or: [
+                    {username: new RegExp(username, "i")},
+                    {title: new RegExp(title, "i")}
+                ]},
+                callback);
+        },
+        function(articles, callback) {
+            if (articles) {
+                callback(null, articles);
+            } else {
+                callback(new Error('Can\'t find any article.'));
+            }
+        }
+    ], callback);
+};
+
 schema.statics.findByUsername = function(username, callback) {
     var Article = this;
 

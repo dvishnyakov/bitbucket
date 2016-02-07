@@ -3,9 +3,11 @@
 <h3>Profile</h3>
 
 <form class="form-horizontal update-form" name="update-form" id="update-form">
+    <% if (user) { %>
     <input type="hidden" name="username" value="<%= user.get('username') %>">
+    <% } %>
     <input type="hidden" name="userId" value="<%= profileUsername %>">
-    <% if (user.get('username') === profileUsername) { %>
+    <% if (user && user.get('username') === profileUsername) { %>
     <div class="form-group">
         <label for="input-password" class="col-lg-2 control-label">Password</label>
         <div class="col-lg-10">
