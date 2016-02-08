@@ -11,13 +11,16 @@ var schema = new Schema({
         unique: true,
         required: true
     },
+    linkedinid: {
+        type: String
+    },
     hashedPassword: {
         type: String,
-        required: true
+        required: false
     },
     salt: {
         type: String,
-        required: true
+        required: false
     },
     created: {
         type: Date,
@@ -57,6 +60,30 @@ schema.statics.authorize = function(username, password, callback) {
                 }
             } else {
                 callback(new AuthError('Username is incorrect.'));
+            }
+        }
+    ], callback);
+};
+
+schema.statics.authorizeFromLinkedIn = function(username, linkedinid, callback) {
+    var User = this;
+
+    async.waterfall([
+        function(callback) {
+            User.findOne({linkedinid: linkedinid}, callback);
+        },
+        function(user, callback) {
+            if (user) {
+                callback(null, user);
+            } else {
+                var user = new User({
+                    username: username,
+                    linkedinid: linkedinid
+                });
+                user.save(function(err) {
+                    if (err) return callback(err);
+                    callback(null, user);
+                });
             }
         }
     ], callback);

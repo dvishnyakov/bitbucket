@@ -18,5 +18,9 @@
       "httpOnly": true,
       "maxAge": null
     }
+  },
+  "passport": {
+    "LinkedInAPIKey": "77un5yzh2jlfvz",
+    "LinkedInSecretKey": "yLhOK8ZDndDVa1Pj"
   }
 }
