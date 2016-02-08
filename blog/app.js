@@ -3,11 +3,7 @@ var http = require('http');
 var path = require('path');
 var config = require('./config');
 var log = require('./lib/log')(module);
-var mongoose = require('./lib/mongoose');
 var HttpError = require('./error').HttpError;
-var passport = require('passport');
-var LinkedInStrategy = require('passport-linkedin').Strategy;
-var User = require('./models/user').User;
 
 var app = express();
 
@@ -46,12 +42,6 @@ require('./routes')(app);
 require('./middleware/linkedIn')(app);
 
 app.use(express.static(path.join(__dirname, 'public')));
-
-//----------------------------------------------------------------------------------------------------------------------
-
-
-
-//----------------------------------------------------------------------------------------------------------------------
 
 app.use(function(err, req, res, next) {
     if (typeof err == 'number') {

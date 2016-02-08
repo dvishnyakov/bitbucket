@@ -5,10 +5,6 @@ module.exports = function(app) {
 
     app.get('/', require('./frontpage').get);
 
-    app.get('/chat', function(req, res) {
-        res.render('../templates/chat');
-    });
-
     app.get('/login', require('./login').get);
     app.post('/authorize', require('./authorize').post);
 
@@ -35,22 +31,4 @@ module.exports = function(app) {
 
     app.get('/commentlist/:articleuid', require('./comment').getAll);
     app.post('/comment/:articleuid', checkAuth, require('./comment').post);
-
-    /*app.get('/user/:id', function(req, res, next) {
-        try {
-            var id = new ObjectID(req.params.id);
-        } catch (e) {
-            return next(404);
-        }
-
-
-        User.findById(req.params.id, function(err, user) {
-            if (err) return next(err);
-            if (!user) {
-                next(404);
-            }
-            res.json(user);
-        });
-    });*/
-
 };
