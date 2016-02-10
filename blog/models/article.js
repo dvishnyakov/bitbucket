@@ -62,12 +62,12 @@ schema.statics.readAll = function(username, callback) {
     ], callback);
 };
 
-schema.statics.read = function(username, uid, callback) {
+schema.statics.read = function(username, id, callback) {
     var Article = this;
 
     async.waterfall([
         function(callback) {
-            Article.findOne({username: username, uid: uid}, callback);
+            Article.findById(id, callback);
         },
         function(article, callback) {
             if (article) {
@@ -101,7 +101,7 @@ schema.statics.findArticle = function(username, title, callback) {
     ], callback);
 };
 
-schema.statics.findByUsername = function(username, callback) {
+/*schema.statics.findByUsername = function(username, callback) {
     var Article = this;
 
     async.waterfall([
@@ -133,14 +133,14 @@ schema.statics.findByTitle = function(title, callback) {
             }
         }
     ], callback);
-};
+};*/
 
-schema.statics.update = function(username, uid, title, text, rating, callback) {
+schema.statics.update = function(username, id, title, text, rating, callback) {
     var Article = this;
 
     async.waterfall([
         function(callback) {
-            Article.findOne({username: username, uid: uid}, callback);
+            Article.findById(id, callback);
         },
         function(article, callback) {
             if (article) {
@@ -165,12 +165,12 @@ schema.statics.update = function(username, uid, title, text, rating, callback) {
     ], callback);
 };
 
-schema.statics.delete = function(username, uid, callback) {
+schema.statics.delete = function(username, id, callback) {
     var Article = this;
 
     async.waterfall([
         function(callback) {
-            Article.findOne({username: username, uid: uid}, callback);
+            Article.findById(id, callback);
         },
         function(article, callback) {
             if (article) {

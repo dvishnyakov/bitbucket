@@ -36,9 +36,9 @@ exports.postobj = function(req, res, next) {
 exports.getobj = function(req, res, next) {
 
     var username = req.params.username;
-    var uid = req.params.uid;
+    var id = req.params.uid;
 
-    Article.read(username, uid, function(err, article) {
+    Article.read(username, id, function(err, article) {
         if (err) return next(err);
 
         res.send(article);
@@ -48,12 +48,12 @@ exports.getobj = function(req, res, next) {
 exports.putobj = function(req, res, next) {
 
     var username = req.params.username;
-    var uid = req.params.uid;
+    var id = req.params.uid;
     var title = req.body.newarticletitle;
     var text = req.body.newarticletext;
     var rating = req.body.rating ? parseInt(req.body.rating) : undefined;
 
-    Article.update(username, uid, title, text, rating, function(err, article) {
+    Article.update(username, id, title, text, rating, function(err, article) {
         if (err) return next(err);
 
         res.send(article);
@@ -63,9 +63,9 @@ exports.putobj = function(req, res, next) {
 exports.deleteobj = function(req, res, next) {
 
     var username = req.params.username;
-    var uid = req.params.uid;
+    var id = req.params.uid;
 
-    Article.delete(username, uid, function(err, article) {
+    Article.delete(username, id, function(err, article) {
         if (err) return next(err);
 
         res.send({});
