@@ -6,8 +6,8 @@ async.series([
     dropDatabase,
     requireModels,
     createUsers,
-    createArticles,
-    createComment
+    createArticles/*,
+    createComment*/
 ], function(err) {
     console.log(arguments);
     mongoose.disconnect();

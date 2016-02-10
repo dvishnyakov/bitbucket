@@ -44,7 +44,7 @@
                         if ($('.article-list').html() !== '') {
                             $('.article-list').append('</br>');
                         }
-                        $('.article-list').append('<li><b><a href="/article/' + article.username + '/' + article.uid + '">' + article.title + '</a></li>');
+                        $('.article-list').append('<li><b><a href="/article/' + article.username + '/' + article._id + '">' + article.title + '</a></li>');
                     });
                 },
                 403: function (jqXHR) {

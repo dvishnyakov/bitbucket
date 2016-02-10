@@ -33,7 +33,7 @@ function loadArticleState() {
                 $('p[name=articletext]').html(article.text);
                 $('input[name=articletitle]').val(article.title);
                 $('input[name=articletext]').val(article.text);
-                $('input[name=newarticletitle').val(article.title);
+                $('input[name=newarticletitle]').val(article.title);
                 $('textarea[name=newarticletext]').val(article.text);
                 if (article.rating !== 0) {
                     updateRating(Math.round(article.rating / article.numberOfVotes));
@@ -122,7 +122,9 @@ function onRatingClick(e) {
 function onUpdateClick() {
     var form = $('.article-form');
     $.ajax({
-        url: '/articleobj/' + $('input[name=articleUsername]').val() + '/' + $('input[name=articleUID]').val(),
+        url: '/articleobj/'
+            + $('input[name=articleUsername]').val() + '/'
+            + $('input[name=articleUID]').val(),
         method: 'PUT',
         data: form.serialize(),
         statusCode: {
@@ -142,7 +144,9 @@ function onDeleteClick() {
     var username =  $('input[name=username]').val();
 
     $.ajax({
-        url: '/articleobj/' + $('input[name=articleUsername]').val() + '/' + $('input[name=articleUID]').val(),
+        url: '/articleobj/'
+            + $('input[name=articleUsername]').val() + '/'
+            + $('input[name=articleUID]').val(),
         method: 'DELETE',
         statusCode: {
             200: function () {
@@ -162,12 +166,14 @@ function onCreateClick() {
     var username = $('input[name=username]').val();
 
     $.ajax({
-        url: '/articleobj/' + $('input[name=articleUsername]').val() + '/' + $('input[name=articleUID]').val(),
+        url: '/articleobj/'
+            + $('input[name=articleUsername]').val() + '/'
+            + $('input[name=articleUID]').val(),
         method: 'POST',
         data: form.serialize(),
         statusCode: {
             200: function (article) {
-                window.location.href = '/article/' + username + '/' + article.uid;
+                window.location.href = '/article/' + username + '/' + article._id;
             },
             403: function (jqXHR) {
                 var error = JSON.parse(jqXHR.responseText);
@@ -193,7 +199,7 @@ function onPostCommentClick() {
             200: function () {
                 $('input[name=newcomment]').val('');
                 loadComments();
-                var commentsCount = parseInt($('a[name=commentscount').html()) + 1;
+                var commentsCount = parseInt($('a[name=commentscount]').html()) + 1;
                 socket.emit('comment', commentsCount);
             },
             403: function (jqXHR) {

@@ -31,7 +31,7 @@
                         if ($('.search-result').html() !== '') {
                             $('.search-result').append('</br>');
                         }
-                        $('.search-result').append('<li><b><a href="/article/' + article.username + '/' + article.uid + '">' + article.title + '</a></b></br><a href="/profile/' + article.username + '">' + article.username + '</a></li>');
+                        $('.search-result').append('<li><b><a href="/article/' + article.username + '/' + article._id + '">' + article.title + '</a></b></br><a href="/profile/' + article.username + '">' + article.username + '</a></li>');
                     });
                 },
                 403: function (jqXHR) {

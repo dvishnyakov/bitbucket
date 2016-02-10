@@ -11,7 +11,7 @@ var schema = new Schema({
         required: true
     },
     articleUID: {
-        type: Number,
+        type: Schema.Types.ObjectId,
         required: true
     },
     text: {
@@ -24,22 +24,22 @@ var schema = new Schema({
     }
 });
 
-schema.statics.create = function(username, uid, text, callback) {
+schema.statics.create = function(username, id, text, callback) {
     var Comment = this;
 
-    var comment = new Comment({username: username, articleUID: uid, text: text});
+    var comment = new Comment({username: username, articleUID: id, text: text});
     comment.save(function(err) {
         if (err) return callback(err);
         callback(null);
     });
 };
 
-schema.statics.readAll = function(uid, callback) {
+schema.statics.readAll = function(id, callback) {
     var Comment = this;
 
     async.waterfall([
         function(callback) {
-            Comment.find({articleUID: uid}, callback);
+            Comment.find({articleUID: id}, callback);
         },
         function(comments, callback) {
             if (comments) {
