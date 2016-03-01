@@ -1,14 +1,14 @@
 var User = require('../models/user').User;
 
 module.exports = function(req, res, next) {
-    req.user = res.locals.user = null;
+    res.locals.user = null;
 
-    if (!req.session.user) return next();
+    if (!req.user) return next();
 
-    User.findById(req.session.user, function(err, user) {
+    User.findById(req.user._id, function(err, user) {
         if (err) return next(err);
 
-        req.user = res.locals.user = user;
+        res.locals.user = user;
         next();
     });
 };

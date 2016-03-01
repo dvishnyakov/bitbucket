@@ -161,6 +161,13 @@ schema.statics.findAll = function(callback) {
     });
 };
 
+schema.statics.findUser = function(id, callback) {
+    var User = this;
+    User.findById(id, function(err, user) {
+        callback(user);
+    });
+};
+
 exports.User = mongoose.model('User', schema);
 
 function AuthError(message) {
