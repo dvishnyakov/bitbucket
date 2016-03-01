@@ -1,17 +1,33 @@
 var checkAuth = require('../middleware/checkAuth');
 var url = require('url');
+var passport = require('passport');
 
 module.exports = function(app) {
 
     app.get('/', require('./frontpage').get);
 
+    app.get('/join', require('./join').get);
+    app.post('/register', passport.authenticate('local-signup', {
+        successRedirect : '/',
+        failureRedirect : '/join',
+        failureFlash : true
+    }));
+
     app.get('/login', require('./login').get);
-    app.post('/authorize', require('./authorize').post);
+    app.post('/authorize', passport.authenticate('local-login', {
+        successRedirect: '/',
+        failureRedirect: '/login',
+        failureFlash: true
+    }));
+
+    app.get('/auth/linkedin', passport.authenticate('linkedin'));
+    app.get('/auth/linkedin/callback',
+        passport.authenticate('linkedin', {
+            successRedirect: '/',
+            failureRedirect: '/login'
+        }));
 
     app.post('/logout', require('./logout').post);
-
-    app.get('/join', require('./join').get);
-    app.post('/register', require('./register').post);
 
     app.post('/profile', checkAuth, require('./profile').post);
     app.get('/profile/:username', require('./profile').get);
